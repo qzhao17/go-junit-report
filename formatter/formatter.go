@@ -13,10 +13,12 @@ import (
 )
 
 // JUnitTestSuites is a collection of JUnit test suites.
+
 type JUnitTestSuites struct {
-	XMLName xml.Name         
+	XMLName xml.Name         `xml:"testsuites"`
 	Suites  []JUnitTestSuite `xml:"testsuite"`
 }
+
 
 // JUnitTestSuite is a single JUnit test suite which may contain many
 // testcases.
@@ -140,7 +142,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 	}
     
 	// to xml
-	bytes, err := xml.MarshalIndent(suites, "", "\t")
+	bytes, err := xml.MarshalIndent(suites.Suites[0], "", "\t")
 	if err != nil {
 		return err
 	}
