@@ -14,7 +14,7 @@ import (
 
 // JUnitTestSuites is a collection of JUnit test suites.
 type JUnitTestSuites struct {
-	XMLName xml.Name         `xml:"testsuites"`
+	//XMLName xml.Name         `xml:"testsuites"`
 	Suites  []JUnitTestSuite `xml:"testsuite"`
 }
 
@@ -25,7 +25,7 @@ type JUnitTestSuite struct {
 	Tests      int             `xml:"tests,attr"`
 	Failures   int             `xml:"failures,attr"`
 	Errors     int             `xml:"errors,attr"`
-	Skip       int             `xml:"skip,attr"`
+	Skip       int             `xml:"skips,attr"`
 	Time       string          `xml:"time,attr"`
 	Name       string          `xml:"name,attr"`
 	//Properties []JUnitProperty `xml:"properties>property,omitempty"`
@@ -137,7 +137,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 
 		suites.Suites = append(suites.Suites, ts)
 	}
-
+    
 	// to xml
 	bytes, err := xml.MarshalIndent(suites, "", "\t")
 	if err != nil {
