@@ -74,7 +74,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 			Errors:     0,
 			Skip:       0,
 			Time:       formatTime(pkg.Duration),
-			Name:       pkg.Name,
+			Name:       Go test,
 			//Properties: []JUnitProperty{},
 			TestCases:  []JUnitTestCase{},
 		}
@@ -98,7 +98,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 		for _, test := range pkg.Tests {
 			testCase := JUnitTestCase{
 				Classname: classname,
-				Name:      test.Name,
+				Name:      test.Name+'.go',
 				Time:      formatTime(test.Duration),
 				Failure:   nil,
 			}
