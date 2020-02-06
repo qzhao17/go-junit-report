@@ -5,7 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io"
-	"runtime"
+	//"runtime"
 	"strings"
 	"time"
 
