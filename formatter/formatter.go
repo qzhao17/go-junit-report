@@ -24,9 +24,11 @@ type JUnitTestSuite struct {
 	XMLName    xml.Name        `xml:"testsuite"`
 	Tests      int             `xml:"tests,attr"`
 	Failures   int             `xml:"failures,attr"`
+	Errors     int             `xml:"errors,attr"`
+	Skip       int             `xml:"skip,attr"`
 	Time       string          `xml:"time,attr"`
 	Name       string          `xml:"name,attr"`
-	Properties []JUnitProperty `xml:"properties>property,omitempty"`
+	//Properties []JUnitProperty `xml:"properties>property,omitempty"`
 	TestCases  []JUnitTestCase `xml:"testcase"`
 }
 
@@ -69,9 +71,11 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 		ts := JUnitTestSuite{
 			Tests:      len(pkg.Tests) + len(pkg.Benchmarks),
 			Failures:   0,
+			Errors:     0,
+			Skip:       0,
 			Time:       formatTime(pkg.Duration),
 			Name:       pkg.Name,
-			Properties: []JUnitProperty{},
+			//Properties: []JUnitProperty{},
 			TestCases:  []JUnitTestCase{},
 		}
 
@@ -79,7 +83,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 		if idx := strings.LastIndex(classname, "/"); idx > -1 && idx < len(pkg.Name) {
 			classname = pkg.Name[idx+1:]
 		}
-
+        /*
 		// properties
 		if goVersion == "" {
 			// if goVersion was not specified as a flag, fall back to version reported by runtime
@@ -89,7 +93,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 		if pkg.CoveragePct != "" {
 			ts.Properties = append(ts.Properties, JUnitProperty{"coverage.statements.pct", pkg.CoveragePct})
 		}
-
+        */
 		// individual test cases
 		for _, test := range pkg.Tests {
 			testCase := JUnitTestCase{
@@ -109,9 +113,14 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 			}
 
 			if test.Result == parser.SKIP {
+				ts.Skip++
 				testCase.SkipMessage = &JUnitSkipMessage{strings.Join(test.Output, "\n")}
 			}
 
+			if test.Result != parser.PASS && test.Result != parser.FAIL && test.Result != parser.SKIP{
+                ts.Errors++
+			}
+			
 			ts.TestCases = append(ts.TestCases, testCase)
 		}
 
