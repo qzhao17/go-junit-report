@@ -14,7 +14,7 @@ import (
 
 // JUnitTestSuites is a collection of JUnit test suites.
 type JUnitTestSuites struct {
-	XMLName xml.Name         `xml:" "`
+	XMLName xml.Name         
 	Suites  []JUnitTestSuite `xml:"testsuite"`
 }
 
