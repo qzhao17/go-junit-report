@@ -1,3 +1,3 @@
-module github.com/jstemmer/go-junit-report
+module github.com/qzhao17/go-junit-report
 
 go 1.2
