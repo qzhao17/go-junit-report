@@ -74,7 +74,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
 			Errors:     0,
 			Skip:       0,
 			Time:       formatTime(pkg.Duration),
-			Name:       'Go test',
+			Name:       Gotest,
 			//Properties: []JUnitProperty{},
 			TestCases:  []JUnitTestCase{},
 		}
@@ -96,7 +96,7 @@ func JUnitReportXML(report *parser.Report, noXMLHeader bool, goVersion string, w
         */
 		// individual test cases
 		for _, test := range pkg.Tests {
-			name = test.Name + '.go'
+			var name = test.Name + ".go"
 			testCase := JUnitTestCase{
 				Classname: classname,
 				Name:      name,
